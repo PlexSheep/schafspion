@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * </ul>
  */
 @Mixin(MinecraftClient.class)
-public abstract class ExampleMixin {
+public abstract class InitMixin {
     /**
      * Example Mixin injection targeting the {@code <init>} method (the constructor) at {@code TAIL} (end of method).
      */
