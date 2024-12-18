@@ -9,7 +9,6 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -85,11 +84,9 @@ public class NetSnoop extends Module {
                 if (field.getName().startsWith("$")) continue; // Skip synthetic fields
 
                 field.setAccessible(true);
-                String descriptor = Type.getDescriptor(field.getType());
                 String mappedFieldName = SchafSpion.getMappedFieldName(
                     packet.getClass(),
-                    field.getName(),
-                    descriptor
+                    field.getName()
                 );
 
                 Object value = field.get(packet);
@@ -185,7 +182,6 @@ public class NetSnoop extends Module {
         }
 
         if (isActive() && !ignorePacket(packet)) {
-            SchafSpion.debugPrintMappings(packet.getClass());
             LOG.info(String.format("%s Package: %s", side, getPacketInfo(packet)));
         }
     }
