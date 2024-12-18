@@ -8,3 +8,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+include 'src:test:java'
+findProject(':src:test:java')?.name = 'java'
+
