@@ -1,6 +1,6 @@
-package com.example.addon.mixin;
+package de.cscherr.schafspion.mixin;
 
-import com.example.addon.AddonTemplate;
+import de.cscherr.schafspion.AddonTemplate;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import org.spongepowered.asm.mixin.Mixin;

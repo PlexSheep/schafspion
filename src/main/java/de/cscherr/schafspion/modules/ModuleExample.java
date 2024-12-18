@@ -1,6 +1,6 @@
-package com.example.addon.modules;
+package de.cscherr.schafspion.modules;
 
-import com.example.addon.AddonTemplate;
+import de.cscherr.schafspion.AddonTemplate;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.ColorSetting;

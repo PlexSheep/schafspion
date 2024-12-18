@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "id": "addon-template",
+  "id": "schafspion",
   "version": "${version}",
-  "name": "Addon Template",
-  "description": "An addon template for Meteor Client addons.",
+  "name": "Schafspion",
+  "description": "Meteor Client addon for actual hackers",
   "authors": [
-    "seasnail"
+    "PlexSheep"
   ],
   "contact": {
-    "repo": "https://github.com/MeteorDevelopment/meteor-addon-template"
+    "repo": "https://github.com/PlexSheep/schafspion"
   },
-  "icon": "assets/template/icon.png",
+  "icon": "assets/schafspion/icon.png",
   "environment": "client",
   "entrypoints": {
     "meteor": [
-      "com.example.addon.AddonTemplate"
+      "de.cscherr.schafspion.AddonTemplate"
     ]
   },
   "mixins": [
-    "addon-template.mixins.json"
+    "schafspion.mixins.json"
   ],
   "custom": {
     "meteor-client:color": "225,25,25"

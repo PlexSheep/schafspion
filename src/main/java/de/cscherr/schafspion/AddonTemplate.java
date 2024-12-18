@@ -1,8 +1,8 @@
-package com.example.addon;
+package de.cscherr.schafspion;
 
-import com.example.addon.commands.CommandExample;
-import com.example.addon.hud.HudExample;
-import com.example.addon.modules.ModuleExample;
+import de.cscherr.schafspion.commands.CommandExample;
+import de.cscherr.schafspion.hud.HudExample;
+import de.cscherr.schafspion.modules.ModuleExample;
 import com.mojang.logging.LogUtils;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
@@ -39,7 +39,7 @@ public class AddonTemplate extends MeteorAddon {
 
     @Override
     public String getPackage() {
-        return "com.example.addon";
+        return "de.cscherr.schafspion";
     }
 
     @Override
