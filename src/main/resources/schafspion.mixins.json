@@ -2,9 +2,7 @@
   "required": true,
   "package": "de.cscherr.schafspion.mixin",
   "compatibilityLevel": "JAVA_21",
-  "client": [
-    "InitMixin"
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   },

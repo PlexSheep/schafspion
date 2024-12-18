@@ -23,11 +23,11 @@ public class SchafSpion extends MeteorAddon {
 
     @Override
     public void onInitialize() {
-        LOG.info("Initializing Meteor Addon Template");
+        LOG.info("Initializing SchafSpion Addon");
 
         // Modules
         Modules.get().add(new ModuleExample());
-        Modules.get().add(this.netsnoop);
+        Modules.get().add(netsnoop);
 
         // Commands
         Commands.add(new CommandExample());
