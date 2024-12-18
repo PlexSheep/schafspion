@@ -4,6 +4,7 @@ import de.cscherr.schafspion.commands.CommandExample;
 import de.cscherr.schafspion.hud.HudExample;
 import de.cscherr.schafspion.modules.ModuleExample;
 import com.mojang.logging.LogUtils;
+import de.cscherr.schafspion.modules.Netsnoop;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -25,6 +26,7 @@ public class AddonTemplate extends MeteorAddon {
 
         // Modules
         Modules.get().add(new ModuleExample());
+        Modules.get().add(new Netsnoop());
 
         // Commands
         Commands.add(new CommandExample());
