@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import org.slf4j.Logger;
 
-public class AddonTemplate extends MeteorAddon {
+public class SchafSpion extends MeteorAddon {
     public static final Logger LOG = LogUtils.getLogger();
     public static final String NAME = "Schafspion";
     public static final Category CATEGORY = new Category(NAME);

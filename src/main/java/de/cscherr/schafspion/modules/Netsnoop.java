@@ -1,6 +1,6 @@
 package de.cscherr.schafspion.modules;
 
-import de.cscherr.schafspion.AddonTemplate;
+import de.cscherr.schafspion.SchafSpion;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -25,6 +25,6 @@ public class Netsnoop extends Module {
      * The {@code name} parameter should be in kebab-case.
      */
     public Netsnoop() {
-        super(AddonTemplate.CATEGORY, "Netsnoop", "An example module that highlights the center of the world.");
+        super(SchafSpion.CATEGORY, "Netsnoop", "An example module that highlights the center of the world.");
     }
 }

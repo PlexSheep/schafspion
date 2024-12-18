@@ -14,7 +14,7 @@
   "environment": "client",
   "entrypoints": {
     "meteor": [
-      "de.cscherr.schafspion.AddonTemplate"
+      "de.cscherr.schafspion.SchafSpion"
     ]
   },
   "mixins": [

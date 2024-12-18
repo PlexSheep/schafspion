@@ -1,6 +1,6 @@
 package de.cscherr.schafspion.modules;
 
-import de.cscherr.schafspion.AddonTemplate;
+import de.cscherr.schafspion.SchafSpion;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.ColorSetting;
@@ -43,12 +43,12 @@ public class ModuleExample extends Module {
      * The {@code name} parameter should be in kebab-case.
      */
     public ModuleExample() {
-        super(AddonTemplate.CATEGORY, "world-origin", "An example module that highlights the center of the world.");
+        super(SchafSpion.CATEGORY, "world-origin", "An example module that highlights the center of the world.");
     }
 
     /**
      * Example event handling method.
-     * Requires {@link AddonTemplate#getPackage()} to be setup correctly, will fail silently otherwise.
+     * Requires {@link SchafSpion#getPackage()} to be setup correctly, will fail silently otherwise.
      */
     @EventHandler
     private void onRender3d(Render3DEvent event) {
