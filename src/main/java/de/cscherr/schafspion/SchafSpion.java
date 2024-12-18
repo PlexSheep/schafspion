@@ -4,7 +4,7 @@ import de.cscherr.schafspion.commands.CommandExample;
 import de.cscherr.schafspion.hud.HudExample;
 import de.cscherr.schafspion.modules.ModuleExample;
 import com.mojang.logging.LogUtils;
-import de.cscherr.schafspion.modules.Netsnoop;
+import de.cscherr.schafspion.modules.NetSnoop;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -19,6 +19,7 @@ public class SchafSpion extends MeteorAddon {
     public static final String NAME = "Schafspion";
     public static final Category CATEGORY = new Category(NAME);
     public static final HudGroup HUD_GROUP = new HudGroup(NAME);
+    public static NetSnoop netsnoop = new NetSnoop();
 
     @Override
     public void onInitialize() {
@@ -26,7 +27,7 @@ public class SchafSpion extends MeteorAddon {
 
         // Modules
         Modules.get().add(new ModuleExample());
-        Modules.get().add(new Netsnoop());
+        Modules.get().add(this.netsnoop);
 
         // Commands
         Commands.add(new CommandExample());
