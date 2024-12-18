@@ -9,9 +9,12 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Unique;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -36,44 +39,100 @@ public class NetSnoop extends Module {
 
     /**
      * Formats the packet description String
-     *
-     * @param packet the packet in question
-     * @return description for that packet
      */
     @Unique
     private String getPacketInfo(Packet<?> packet) {
-        String information;
+        String mappedName = SchafSpion.getMappedClassName(packet.getClass());
+
         switch (this.verbosity.get()) {
-            case Minimal -> information = packet.getClass().getSimpleName();
-            case All -> information = String.format("%s:\n%s", packet.getClass().getSimpleName(), getPacketFields(packet));
+            case Minimal -> {
+                return mappedName;
+            }
+            case All -> {
+                return String.format("%s:\n%s", mappedName, getPacketFields(packet));
+            }
             default -> throw new IllegalStateException("Unexpected value: " + this.verbosity.get());
         }
-        return information;
     }
 
     /**
-     * Formats additional information depending on packet class
-     * @param packet the packet in question
-     * @return additional information depending on the packet class
+     * Formats field information
      */
     @Unique
-    private static String getPacketFields(Packet<?> packet) {
-        String fieldInfo;
-        //noinspection SwitchStatementWithTooFewBranches
-        switch (packet.getClass().getSimpleName()) {
-            case "PositionAndOnGround" -> {
-                PlayerMoveC2SPacket pmPacket = (PlayerMoveC2SPacket)packet;
-                fieldInfo = String.format("X: %f | Y: %f | Z: %f\n" +
-                    "Ground: %b", pmPacket.getX(0), pmPacket.getY(0), pmPacket.getZ(0), pmPacket.isOnGround());
+    public String getPacketFields(Packet<?> packet) {
+        StringBuilder fieldInfo = new StringBuilder();
+
+        try {
+            // Handle PlayerMoveC2SPacket specially
+            if (packet instanceof PlayerMoveC2SPacket movePacket) {
+                fieldInfo.append(String.format("position: %.2f, %.2f, %.2f%n",
+                    movePacket.getX(0),
+                    movePacket.getY(0),
+                    movePacket.getZ(0)));
+                fieldInfo.append(String.format("onGround: %b", movePacket.isOnGround()));
+
+                if (packet instanceof PlayerMoveC2SPacket.Full fullMovePacket) {
+                    fieldInfo.append(String.format("%nyaw: %.2f, pitch: %.2f",
+                        fullMovePacket.getYaw(0),
+                        fullMovePacket.getPitch(0)));
+                }
+                return fieldInfo.toString();
             }
-            case "Full" -> {
-                PlayerMoveC2SPacket.Full pmPacket = (PlayerMoveC2SPacket.Full) packet;
-                fieldInfo = String.format("X: %f | Y: %f | Z: %f\n" +
-                    "Ground: %b", pmPacket.getX(0), pmPacket.getY(0), pmPacket.getZ(0), pmPacket.isOnGround());
+
+            // For other packets, use reflection with mapped names
+            Field[] fields = packet.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if (field.getName().startsWith("$")) continue; // Skip synthetic fields
+
+                field.setAccessible(true);
+                String descriptor = Type.getDescriptor(field.getType());
+                String mappedFieldName = SchafSpion.getMappedFieldName(
+                    packet.getClass(),
+                    field.getName(),
+                    descriptor
+                );
+
+                Object value = field.get(packet);
+                if (value != null) {
+                    String formattedValue = formatFieldValue(value);
+                    fieldInfo.append(String.format("%s: %s%n", mappedFieldName, formattedValue));
+                }
             }
-            default -> fieldInfo = "<None>";
+        } catch (Exception e) {
+            LOG.error("Error getting packet fields", e);
+            return "<Error getting fields>";
         }
-        return fieldInfo;
+
+        return !fieldInfo.isEmpty() ? fieldInfo.toString().trim() : "<None>";
+    }
+
+    /**
+     * Format field values in a readable way
+     */
+    @Unique
+    private static String formatFieldValue(Object value) {
+        if (value == null) return "null";
+
+        // Handle arrays
+        if (value.getClass().isArray()) {
+            switch (value) {
+                case Object[] objects -> {
+                    return Arrays.toString(objects);
+                }
+                case int[] ints -> {
+                    return Arrays.toString(ints);
+                }
+                case byte[] bytes -> {
+                    return Arrays.toString(bytes);
+                }
+                default -> {
+                }
+            }
+            // Add other array types as needed
+        }
+
+        // For other types, just use toString
+        return value.toString();
     }
 
     public enum Verbosity {
@@ -126,6 +185,7 @@ public class NetSnoop extends Module {
         }
 
         if (isActive() && !ignorePacket(packet)) {
+            SchafSpion.debugPrintMappings(packet.getClass());
             LOG.info(String.format("%s Package: %s", side, getPacketInfo(packet)));
         }
     }
